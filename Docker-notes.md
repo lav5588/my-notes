@@ -29,6 +29,6 @@ When databases are run it needs some secret password so that anyone can't access
 -d is used to keep the terminal in detached mode it means terminal will not be busy . it will free. And we can use it.
 
 
-hello
+
 
 
