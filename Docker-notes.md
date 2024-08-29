@@ -62,3 +62,18 @@ The `docker container prune command` is specifically designed to remove all stop
 
         docker logs <container name or id>
 `docker logs` is used to log information of a running container.
+
+        docker network create <network name>
+
+`docker network create` is used to create to create a network.
+
+
+
+        docker run --name mongo-two -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=password --net mongo-network -d mongo
+`--net`  is used to provide a network to mongodb on which we it will run. here we pass name of the network in this case we pass `mongo-network`.
+
+        docker network ls <options>
+`docker network ls` is used to list the network.
+
+        docker run -d -p 8081:8081 -e ME_CONFIG_MONGODB_ADMINUSERNAME=admin -e ME_CONFIG_MONGODB_ADMINPASSWORD=password -e ME_CONFIG_MONGODB_SERVER=mongo-two --net mongo-network --name mongo-express mongo-express
+It pull and run the `mongo-express` image on the given network and given mongo container instance. And we can access it web base GUI on port `8081`.
