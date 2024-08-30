@@ -1,7 +1,7 @@
 # Docker
 
 
-        docker pull <image name>
+        docker pull <image name>:<version>
 
 `docker pull` is used to pull a Docker image from the repository
 
@@ -23,7 +23,6 @@
 
 `docker container ls -a` is used to list all the Docker whether it is running or not
 
-### Docker run
         docker run <image name>:<version>
 
 `docker run` is used to run a Docker Image
@@ -77,3 +76,92 @@ The `docker container prune command` is specifically designed to remove all stop
 
         docker run -d -p 8081:8081 -e ME_CONFIG_MONGODB_ADMINUSERNAME=admin -e ME_CONFIG_MONGODB_ADMINPASSWORD=password -e ME_CONFIG_MONGODB_SERVER=mongo-two --net mongo-network --name mongo-express mongo-express
 It pull and run the `mongo-express` image on the given network and given mongo container instance. And we can access it web base GUI on port `8081`.
+
+
+
+
+
+## Docker Compose
+Docker Compose is a tool for defining and running multi-container applications. It is the key to unlocking a streamlined and efficient development and deployment experience.
+
+Compose simplifies the control of your entire application stack, making it easy to manage services, networks, and volumes in a single, comprehensible YAML configuration file. Then, with a single command, you create and start all the services from your configuration file.
+
+Compose works in all environments; production, staging, development, testing, as well as CI workflows. It also has commands for managing the whole lifecycle of your application:
+
+- Start, stop, and rebuild services
+- View the status of running services
+- Stream the log output of running services
+- Run a one-off command on a service
+
+
+```yaml
+//Docker-compose.yaml
+version: '3'
+services:
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - mongo-data:/data/db
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=password
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+
+volumes:
+  mongo-data:
+    driver: local
+```
+
+        docker-compose -f <filePath> up
+`docker-compose -f <filePath> up` is used to run the `yaml` file.
+
+        docker-compose -f <filePath> down
+`docker-compose -f <filePath> down` iis used to stop and remove all containers, networks, and other resources that were created by `docker-compose up` for the services defined in a `docker-compose.yml` file.
+
+
+
+## Dockerfile
+Docker can build images automatically by reading the instructions from a Dockerfile. A Dockerfile is a text document that contains all the commands a user could call on the command line to assemble an image. This page describes the commands you can use in a Dockerfile.
+
+
+### Deploying a python project on dockerhub 
+
+```python
+//index.py
+from flask import flask
+helloworld = Flask(__name__)
+@helloworld.route("/")
+def run():
+    return "{\"message\":\" Hey there python\"}"
+
+if __name__ == "__main__":
+    helloworld.run(host="0.0.0.0", port= int("3000"),debug=True)
+```
+
+```txt
+//requirements.txt
+flask
+```
+
+```Dockerfile
+//Dockerfile
+FROM python:3-alpine3.15
+WORKDIR /app
+COPY . /app
+RUN pip install -r requirements.txt
+EXPOSE 3000
+CMD python ./inex.py
+```
+         docker build -t lav5588/hey-python-flask:0.0.0.1.RELEASE .
+` docker build -t lav5588/hey-python-flask:0.0.0.1.RELEASE .`  is used to build a Docker image from the contents of the current directory (`.`), which usually contains a       `Dockerfile` and other necessary files.
