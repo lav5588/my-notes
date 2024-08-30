@@ -12,6 +12,9 @@
         docker image ls
 `docker image ls` is used to list the Docker images.
 
+        docker rmi <image id>
+`docker rmi <image id>` is used to delete a Docker image.
+
         docker ps 
 
 `docker ps` is used to list all the running containers
@@ -130,12 +133,14 @@ volumes:
 `docker-compose -f <filePath> down` iis used to stop and remove all containers, networks, and other resources that were created by `docker-compose up` for the services defined in a `docker-compose.yml` file.
 
 
+        docker volume prune
+`docker volume prune` is used to delete all the volumes .
 
 ## Dockerfile
 Docker can build images automatically by reading the instructions from a Dockerfile. A Dockerfile is a text document that contains all the commands a user could call on the command line to assemble an image. This page describes the commands you can use in a Dockerfile.
 
 
-### Deploying a python project on dockerhub 
+### Deploying a python project image on dockerhub 
 
 ```python
 //index.py
@@ -163,5 +168,68 @@ RUN pip install -r requirements.txt
 EXPOSE 3000
 CMD python ./inex.py
 ```
-         docker build -t lav5588/hey-python-flask:0.0.0.1.RELEASE .
+         docker build -t lav5588/hey-python-flask:0.0.1.RELEASE .
 ` docker build -t lav5588/hey-python-flask:0.0.0.1.RELEASE .`  is used to build a Docker image from the contents of the current directory (`.`), which usually contains a       `Dockerfile` and other necessary files.
+
+         docker run -d -p 3000:3000 lav5588/hey-python-flask:0.0.1.RELEASE
+
+` docker run -p 3000:3000 lav5588/hey-python-flask:0.0.1.RELEASE` is used to run the builded image.
+
+        docker login
+`docker login` is used to login to docker using website.
+
+        docker push lav5588/hey-python-flask:0.0.1.RELEASE
+`docker push lav5588/hey-python-flask:0.0.1.RELEASE` used to push the builded image to the `docker hub`.
+
+### Deploying a node projext image on docker hub
+```js
+//index.js
+const express = require('express')
+const app = express()
+const port = 3000
+
+app.get('/', (req, res) => {
+  res.json({
+    "hey":"NodeJs",
+  })
+})
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
+```
+```json
+//package.json
+{
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
+```
+
+```Dockerfile
+//Dockerfile
+FROM node:slim
+WORKDIR /app
+COPY . /app
+RUN npm install
+EXPOSE 3000
+CMD node index.js
+```
+
+```cmd
+<!-- use this cmds to upload the iamge -->
+docker build -t lav5588/hey-nodejs:0.0.1.RELEASE .
+docker run -d -p 3000:3000 lav5588/hey-nodejs:0.0.1.RELEASE
+docker push lav5588/hey-nodejs:0.0.1.RELEASE
+```
