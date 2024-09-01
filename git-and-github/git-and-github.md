@@ -45,3 +45,33 @@
 
     cat .gitconfig
 If we run this cmd from `home directory` it will open the .gitconfig file.
+
+    git branch
+`git branch` shows the all branches of the repository. and a pointer points to the current branch.
+
+![alt text](image-5.png)
+
+    git branch <new branch name which you want to craete>
+`git  branch <branch name>` is used to create new branch.
+
+    git checkout <branch name>
+`git checkout <branch name>` is used to switch the branch.
+
+![alt text](image-6.png)
+
+    git switch <branch name>
+`git branch <branch name>` is also used to switch the branch.
+
+    git switch -c <branch name>
+    git checkout -b <branch name>
+`git switch -c <branch name>` or `git chechout -b <branch name>` is used to create a branch and move there.
+
+![alt text](image-7.png)
+
+    git merge <branch name>
+`git merge <branch name>` is used to merge the the branch into current branch. Generally this cmd should be run from main or master branch.
+
+    git branch -d <branch name>
+`git branch -d <branch name>` is used to delete a branch. This cmd should be run very `carefully`. It may be `dangerous` to delete a branch.
+
+![alt text](image-8.png)
