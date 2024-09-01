@@ -80,5 +80,184 @@ class Solution {
 };
 ```
 
-## Cycle Detection in a directed graph
-//TODO:
+## Cycle Detection in a directed graph Using DFS
+
+```cpp
+class Solution {
+  public:
+    
+    bool isCycleDFS(vector<int> adj[], int u, vector<bool>& visited, vector<bool>& inRecursion) {
+
+        visited[u] = true;
+        inRecursion[u] = true;
+        
+        
+        for(int &v : adj[u]) {
+            //if not visited, then we check for cycle in DFS
+            if(visited[v] == false && isCycleDFS(adj, v, visited, inRecursion))
+                return true;
+            else if(inRecursion[v] == true)
+                return true;
+        }
+        
+        inRecursion[u] = false;
+        return false;
+        
+    }
+    
+    // Function to detect cycle in a directed graph.
+    bool isCyclic(int V, vector<int> adj[]) {
+        vector<bool> visited(V, false);
+        vector<bool> inRecursion(V, false);
+        
+        for(int i = 0; i<V; i++) {
+            if(!visited[i] && isCycleDFS(adj, i, visited, inRecursion))
+                return true;
+        }
+        
+        return false;
+    }
+};
+```
+
+## Topological Sort
+
+Topological sort is implemented only in `Directed Acyclic Graph`.
+
+### Using DFS and stack
+
+```cpp
+class Solution
+{
+	public:
+	
+	void DFS(vector<int> adj[], int u, vector<bool>& visited, stack<int>& st) {
+	    visited[u] = true;
+	    
+	    
+	    //pehle mere ('u' ke node ke ) bachho ko daalo
+	    for(int &v : adj[u]) {
+	        if(!visited[v])
+	            DFS(adj, v, visited, st);
+	    }
+	    
+	    
+	    //ab mujhe daalo stack me
+	    st.push(u);
+	    
+	}
+	
+	//Function to return list containing vertices in Topological order. 
+	vector<int> topoSort(int V, vector<int> adj[]) 
+	{
+	    vector<bool> visited(V, false);
+	    stack<int> st;
+	    
+	    for(int i = 0; i<V; i++) {
+	        if(!visited[i])
+	            DFS(adj, i, visited, st);
+	    }
+	    
+	    vector<int> result;
+	    
+	    while(!st.empty()) {
+	        result.push_back(st.top());
+	        st.pop();
+	    }
+	    
+	    return result;
+	}
+};
+```
+
+### Using BFS (KAHN's algorithm)
+
+```cpp
+class Solution {
+	public:
+	//Function to return list containing vertices in Topological order. 
+	vector<int> topoSort(int N, vector<int> adj[])  {
+	    queue<int> que;
+	    vector<int> indegree(N, 0);
+	    
+	    //1
+	    for(int u = 0; u<N; u++) {
+	        for(int &v : adj[u]) {
+	            indegree[v]++;
+	        }
+	    }
+	    
+	    //2. Fill que, indegree with 0
+	    for(int i = 0; i<N; i++) {
+	        if(indegree[i] == 0) {
+	            que.push(i);
+	        }
+	    }
+	    
+	    //3. Simple BFS
+	    vector<int> result;
+	    while(!que.empty()) {
+	        int u = que.front();
+	        result.push_back(u);
+	        que.pop();
+	        
+	        for(int &v : adj[u]) {
+	            indegree[v]--;
+	            
+	            if(indegree[v] == 0) {
+	                que.push(v);
+	            }
+	            
+	        }
+	    }
+	    
+	    return result;
+	}
+};
+```
+
+
+## Cycle Detection in a directed graph Using BFS (Kahn's algorithm)
+```cpp
+class Solution {
+  public:
+    // Function to detect cycle in a directed graph.
+    bool isCyclic(int N, vector<int> adj[]) {
+        queue<int> que;
+	    vector<int> indegree(N, 0);
+	    int count = 0;
+	    //1
+	    for(int u = 0; u<N; u++) {
+	        for(int &v : adj[u]) {
+	            indegree[v]++;
+	        }
+	    }
+	    
+	    //2. Fill que, indegree with 0
+	    for(int i = 0; i<N; i++) {
+	        if(indegree[i] == 0) {
+	            que.push(i);
+	            count++;
+	        }
+	    }
+	    
+	    //3. Simple BFS
+	    while(!que.empty()) {
+	        int u = que.front();
+	        que.pop();
+	        
+	        for(int &v : adj[u]) {
+	            indegree[v]--;
+	            
+	            if(indegree[v] == 0) {
+	                que.push(v);
+	                count++;
+	            }
+	            
+	        }
+	    }
+	    
+	    return count != N;
+    }
+};
+```
