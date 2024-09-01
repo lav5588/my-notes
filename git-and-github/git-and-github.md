@@ -79,4 +79,38 @@ If we run this cmd from `home directory` it will open the .gitconfig file.
 ![alt text](image-9.png)
 
     git diff --staged
-`git diff --staged` is used to show the differences between last commit and the staged files. 
+`git diff --staged` is used to show the differences between last commit and the staged files.
+
+    git diff <one commit id> <another commit id>
+    git diff <one commit id>..<another commit id>
+`git diff <one commit id> <another commit id>` or `git diff <one commit id>..<another commit id>` is used to show the differences between 2 commits.
+
+    git diff <one branch name><another branch name>
+    git diff <one branch name>..<another branch name>
+`git diff <one branch name> <another branch name>` or `git diff <one branch name>..<another branch name>` is used to show the differences between 2 branches.
+
+    git stash
+`git stash` is a useful command in Git for temporarily saving your changes without committing them. it is used when you want to change the branch without committing the changes.
+
+    git stash pop
+`git stash pop` re-applies the most recent stash to your working directory and removes it from the stash list. If there are conflicts, Git will notify you, and you'll need to resolve them.
+
+`Note`:- Stash is not limited to one branch. Stash can be moved from one branch to another.
+
+    git stash list
+`git stash list` is used to list the stashes in the current branch.
+
+    git stash apply stashe@{1}
+`git stash apply stashe@{1}` is used to apply the stash to the current branch. First we should `list` the stashes and apply the stash.
+
+![alt text](image-10.png)
+
+![alt text](image-11.png)
+
+    git commit -am "it is used to adding and committing at the same time"
+`-am` is meant to be adding and committing at the same time.
+
+![alt text](image-12.png)
+
+    git rebase master
+`git rebase master` is used make the timeline same and rewrite the history and if we don't want unwanted commits of merging the branch. `never` run this cmd from master or main branch.
