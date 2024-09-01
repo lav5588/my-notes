@@ -75,3 +75,8 @@ If we run this cmd from `home directory` it will open the .gitconfig file.
 `git branch -d <branch name>` is used to delete a branch. This cmd should be run very `carefully`. It may be `dangerous` to delete a branch.
 
 ![alt text](image-8.png)
+
+![alt text](image-9.png)
+
+    git diff --staged
+`git diff --staged` is used to show the differences between last commit and the staged files. 
