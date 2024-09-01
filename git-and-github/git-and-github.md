@@ -31,3 +31,17 @@
 
     git log --oneline
 `git log --oneline` is used to show the logs of commits int one line each commit.
+    
+    git config --global user.name "Lav Kumar yadav"
+`git config --global user.name "Lav Kumar yadav"` is used set the username globally to the git system. whenenver we change in any repository this username will be shared.
+    
+    git config --global user.email "lavkumar3000@gmail.com"
+`git config --global user.name "lavkumar3000@gmail"` is used set the email globally to the git system. whenenver we change in any repository this email will be shared.
+
+    git config --global core.editor "code --wait"
+`git config --global core.editor "code --wait"` is used to set the code editor for git as VsCode. It opnes the vscode and wait for to close the editor.
+
+![alt text](image-4.png)
+
+    cat .gitconfig
+If we run this cmd from `home directory` it will open the .gitconfig file.
