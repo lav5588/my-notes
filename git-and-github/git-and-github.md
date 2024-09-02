@@ -114,3 +114,13 @@ If we run this cmd from `home directory` it will open the .gitconfig file.
 
     git rebase master
 `git rebase master` is used make the timeline same and rewrite the history and if we don't want unwanted commits of merging the branch. `never` run this cmd from master or main branch.
+
+![alt text](image-13.png)
+
+![alt text](image-14.png)
+
+![alt text](image-15.png)
+
+![alt text](image-16.png)
+
+![alt text](image-17.png)
