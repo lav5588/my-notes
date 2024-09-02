@@ -124,3 +124,5 @@ If we run this cmd from `home directory` it will open the .gitconfig file.
 ![alt text](image-16.png)
 
 ![alt text](image-17.png)
+
+![alt text](image-18.png)
