@@ -312,3 +312,53 @@ public:
 	}
 };
 ```
+
+### Using BFS
+
+```cpp []
+class Solution {
+public:
+
+    bool bfsCheckBipartite(vector<int> adjacencyList[], int startNode, vector<int>& colors, int initialColor) {
+        colors[startNode] = initialColor; // Color the start node
+        
+        queue<int> nodeQueue;
+        nodeQueue.push(startNode);
+        
+        while(!nodeQueue.empty()) {
+            int currentNode = nodeQueue.front();
+            nodeQueue.pop();
+            
+            // Traverse all adjacent nodes
+            for(int &neighbor : adjacencyList[currentNode]) {
+                if(colors[neighbor] == colors[currentNode]) {
+                    return false; // If an adjacent node has the same color, the graph is not bipartite
+                } else if(colors[neighbor] == -1) { // If the adjacent node hasn't been colored yet
+                    colors[neighbor] = 1 - colors[currentNode]; // Assign the opposite color to the neighbor
+                    nodeQueue.push(neighbor);
+                }
+            }
+        }
+        
+        return true;
+    }
+
+	bool isBipartite(int numberOfVertices, vector<int> adjacencyList[]){
+	    
+	    vector<int> colors(numberOfVertices, -1); // No node is colored at the start
+	    
+	    // 1 represents one color (e.g., red)
+	    // 0 represents the other color (e.g., green)
+	    
+	    for(int i = 0; i < numberOfVertices; i++) {
+	        // If the node hasn't been colored, start a BFS from it
+	        if(colors[i] == -1) {
+	            if(!bfsCheckBipartite(adjacencyList, i, colors, 1))
+	                return false;
+	        }
+	    }
+	    
+	    return true;
+	}
+};
+```
