@@ -261,3 +261,54 @@ class Solution {
     }
 };
 ```
+
+## Is Graph bipartite
+### Using the DFS
+
+```cpp []
+class Solution {
+public:
+
+    bool dfsCheckBipartite(vector<int> adjacencyList[], int currentNode, vector<int>& colors, int currentColor) {
+        colors[currentNode] = currentColor; // Color the current node
+
+        // Traverse all adjacent nodes
+        for(int &neighbor : adjacencyList[currentNode]) {
+
+            // If the adjacent node has the same color, graph is not bipartite
+            if(colors[neighbor] == colors[currentNode])
+                return false;
+
+            // If the adjacent node hasn't been colored yet
+            if(colors[neighbor] == -1) {
+
+                int newColor = 1 - currentColor;
+
+                // Recursively check if the graph can be bipartite
+                if(!dfsCheckBipartite(adjacencyList, neighbor, colors, newColor))
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
+	bool isBipartite(int numberOfVertices, vector<int> adjacencyList[]) {
+
+	    vector<int> colors(numberOfVertices, -1); // No node is colored at the start
+
+	    // 1 represents one color (e.g., red)
+	    // 0 represents the other color (e.g., green)
+
+	    for(int i = 0; i < numberOfVertices; i++) {
+	        // If the node hasn't been colored, start a DFS from it
+	        if(colors[i] == -1) {
+	            if(!dfsCheckBipartite(adjacencyList, i, colors, 1))
+	                return false;
+	        }
+	    }
+
+	    return true;
+	}
+};
+```
