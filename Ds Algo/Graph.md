@@ -4,38 +4,47 @@
 
 ### Using DFS
 
+
+-  **Intution :-**
+1. The goal is to determine if there is a cycle in an undirected graph. In an undirected graph, a cycle is a path that starts and ends at the same vertex, and we need to ensure that we can detect such paths.
+
+
 ```cpp
 class Solution {
-  public:
-    bool dfs(vector<int>adj[],vector<bool>&vis,int parent,int u){
-        
-        vis[u] = true;
-        for(int &v: adj[u]){
-            if( v == parent )continue; //  don't visit the parent
-            if( vis[v] )return true; //cycle detected
-            bool flag = dfs(adj,vis,u,v);
-            if(flag){
-                return true;
-            }
+public:
+    bool dfs(vector<int> adj[], vector<bool>& visited, int parent, int node) {
+        visited[node] = true; // Mark the current node as visited
+        for (int neighbor : adj[node]) {
+            if (neighbor == parent) continue; // Skip the edge back to the parent
+            if (visited[neighbor]) return true; // Cycle detected
+            bool hasCycle = dfs(adj, visited, node, neighbor);
+            if (hasCycle) return true; // Propagate cycle detection up the call stack
         }
-        return false;
+        return false; // No cycle detected from this node
     }
-    // Function to detect cycle in an undirected graph.
+    
     bool isCycle(int V, vector<int> adj[]) {
-        // Code here
-        // V is the number of vertices
-        vector<bool>vis(V,false);
-        for(int i = 0; i < V; i++){
-            if(!vis[i] && dfs(adj,vis,-1,i)){
-                return true;
+        vector<bool> visited(V, false); // Initialize visited array for all nodes
+        
+        for (int i = 0; i < V; i++) {
+            if (!visited[i]) {
+                if (dfs(adj, visited, -1, i)) {
+                    return true; // If a cycle is detected, return true
+                }
             }
         }
-        return false;
+        return false; // No cycle detected in any component
     }
 };
+
 ```
 
 ### Using BFS
+
+
+-  **Intution :-**
+1. The goal is to detect cycles in an undirected graph using BFS. Unlike DFS, which explores deeper into the graph before backtracking, BFS explores the graph level by level. The approach for detecting cycles using BFS involves keeping track of the parent node of each visited node to distinguish between back edges (which indicate cycles) and tree edges.
+
 
 ``` Cpp
 class Solution {
@@ -81,6 +90,15 @@ class Solution {
 ```
 
 ### Using DSU
+
+-  **Intution :-**
+The Disjoint Set Union (DSU) data structure is ideal for managing a collection of disjoint sets and efficiently supports two operations:
+1. Union: Combine two sets into one.
+2. Find: Determine which set a particular element belongs to.
+
+To detect cycles in an undirected graph, DSU helps in efficiently tracking and merging components of the graph. The presence of a cycle can be detected if two vertices that are connected by an edge belong to the same component.
+
+
 
 ```cpp
 class Solution {
@@ -146,6 +164,8 @@ public:
 
 
 ## Cycle Detection in a directed graph Using DFS
+-  **Intution :-**
+To detect cycles in a directed graph using DFS, we track nodes with two states: those that are fully processed (visited) and those currently in the recursion stack (inRecursion). During DFS traversal, if we encounter a node that is already in the recursion stack, a cycle is present. Nodes are marked as in the recursion stack when explored and unmarked when fully processed. This approach ensures that we detect back edges, which signify cycles in the directed graph. Each node is checked to ensure all graph components are covered.
 
 ```cpp
 class Solution {
@@ -190,6 +210,11 @@ class Solution {
 Topological sort is implemented only in `Directed Acyclic Graph`.
 
 ### Using DFS and stack
+
+
+- **Intution:-**
+
+To perform topological sorting using DFS, we recursively explore each vertex and its neighbors, marking nodes as visited. As we finish processing all neighbors of a node, we push the node onto a stack. This stack captures nodes in reverse topological order because nodes are added after all their descendants are processed. After completing the DFS for all vertices, the stack is emptied to produce the topologically sorted order. This ensures that each vertex appears before all vertices it directs to in the final order.
 
 ```cpp
 class Solution
@@ -237,6 +262,9 @@ class Solution
 
 ### Using BFS (KAHN's algorithm)
 
+- **Intution:-**
+
+To perform topological sorting using Kahn's algorithm (BFS), we first compute the in-degree of each vertex, representing the number of incoming edges. Nodes with zero in-degrees (no incoming edges) are added to a queue. We then process each node from the queue, adding it to the result list and decrementing the in-degree of its neighbors. If any neighbor’s in-degree drops to zero, it is added to the queue. This process continues until all nodes are processed, yielding the topologically sorted order.
 ```cpp
 class Solution {
 	public:
