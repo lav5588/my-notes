@@ -311,6 +311,10 @@ class Solution {
 
 
 ## Cycle Detection in a directed graph Using BFS (Kahn's algorithm)
+
+- **Intution:-**
+
+This code detects cycles in a directed graph using Kahn's algorithm. It first calculates the in-degrees of all nodes. Nodes with zero in-degrees are enqueued for processing. As nodes are processed, their neighbors' in-degrees are decremented, and if any neighbor's in-degree reaches zero, it's enqueued. If the total number of processed nodes equals the number of nodes in the graph, there are no cycles; otherwise, a cycle exists.
 ```cpp
 class Solution {
   public:
@@ -358,6 +362,9 @@ class Solution {
 ## Is Graph bipartite
 ### Using the DFS
 
+- **intution:-**
+
+The code checks if a graph is bipartite using Depth-First Search (DFS). It colors each node with one of two colors while ensuring that no two adjacent nodes share the same color. Starting from uncolored nodes, it recursively colors adjacent nodes with the opposite color. If at any point adjacent nodes end up with the same color, the graph is not bipartite. If all nodes can be successfully colored without conflicts, the graph is bipartite.
 ```cpp []
 class Solution {
 public:
@@ -407,6 +414,10 @@ public:
 ```
 
 ### Using BFS
+
+- **Intution:-**
+
+The code checks if a graph is bipartite using Breadth-First Search (BFS). It colors nodes with two colors, ensuring adjacent nodes have different colors. Starting from uncolored nodes, BFS explores each node's neighbors, coloring them with the opposite color and checking for conflicts. If any adjacent nodes end up with the same color, the graph is not bipartite. If all nodes are successfully colored without conflicts, the graph is bipartite.
 
 ```cpp []
 class Solution {
@@ -461,6 +472,10 @@ public:
 
 ### Normal (DSU)
 
+- **Intution:-**
+
+This code implements the Disjoint Set Union (DSU) data structure with path compression and union by rank. The `findSet` function locates the root of the set containing a given element and optimizes future queries by flattening the structure. The `unionSets` function merges two sets by linking one root to another, effectively combining the sets. Path compression in `findSet` helps keep the tree flat, improving efficiency. The overall goal is to efficiently manage and query disjoint sets.
+
 ```cpp []
 // Function to find the representative (root) of the set containing 'element'
 // with path compression optimization.
@@ -493,6 +508,10 @@ void unionSets(int parent[], int element1, int element2) {
 
 ### Rank and Path Compression (DSU)
 
+
+- **Intution:-**
+
+The code implements the Disjoint Set Union (DSU) with path compression and union by rank. The `findSet` function efficiently locates the root of the set containing an element while applying path compression to flatten the tree for faster future queries. The `unionSets` function merges two sets by attaching the tree with the smaller rank under the tree with the larger rank, maintaining a balanced tree structure. This combination of techniques ensures that both union and find operations are nearly constant time. The primary goal is to efficiently manage and unify disjoint sets while minimizing tree height.
 
 ``` cpp
 // `parent` stores the parent of each node. Initially, each node is its own parent.
@@ -533,4 +552,3 @@ void unionSets(int setA, int setB) {
     }
 }
 ```
-
