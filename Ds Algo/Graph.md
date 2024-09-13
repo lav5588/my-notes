@@ -20,7 +20,8 @@
 - [Disjoint Set Union (DSU)](#disjoint-set-union-dsu)
 - [Normal (DSU)](#normal-dsu)
 - [Rank and Path Compression (DSU)](#rank-and-path-compression-dsu)
-
+- [Dijkstra Algorithm](#dijkstra-algorithm)
+- [Dijkstra Algorithm Using Priority Queue (Min Heap)](#using-priority-queue-min-heap)
 
 
 
@@ -588,4 +589,58 @@ void unionSets(int setA, int setB) {
     }
 }
 ```
+- [Table of Contents](#table-of-contents)
+
+
+## Dijkstra Algorithm
+
+### Using Priority Queue (Min Heap)
+
+- **intution:-**
+
+Dijkstra's algorithm begins by initializing the distance to the source vertex as 0 and all other vertices as infinity, then it places the source vertex into a min-heap with its distance. As it processes the vertices, it always selects the vertex with the smallest known distance. For each vertex, the algorithm updates the distances to its neighboring vertices if a shorter path is found through the current vertex. This process repeats until all vertices are processed or the priority queue is empty. At the end, the algorithm provides the shortest distances from the source to all other vertices in the graph.
+
+
+```cpp
+class Solution {
+public:
+    // Function to find the shortest distance of all vertices from the source vertex S
+    vector<int> dijkstra(int numVertices, vector<vector<int>> adj[], int source) {
+        // Priority queue to store the vertex and its current shortest distance
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> minHeap;
+
+        // Vector to store the shortest distance from the source to each vertex
+        vector<int> shortestDistances(numVertices, INT_MAX);
+
+        // Initialize the source vertex distance to 0 and push it into the priority queue
+        shortestDistances[source] = 0;
+        minHeap.push({0, source});
+
+        // Process the priority queue
+        while (!minHeap.empty()) {
+            // Get the vertex with the smallest distance
+            int currentDistance = minHeap.top().first;
+            int currentNode = minHeap.top().second;
+            minHeap.pop();
+
+            // Iterate through all adjacent vertices
+            for (auto &neighbor : adj[currentNode]) {
+                int edgeWeight = neighbor[1];
+                int adjacentNode = neighbor[0];
+
+                // If a shorter path to the adjacent node is found
+                if (currentDistance + edgeWeight < shortestDistances[adjacentNode]) {
+                    // Update the shortest distance
+                    shortestDistances[adjacentNode] = currentDistance + edgeWeight;
+                    // Push the updated distance into the priority queue
+                    minHeap.push({shortestDistances[adjacentNode], adjacentNode});
+                }
+            }
+        }
+
+        return shortestDistances;
+    }
+};
+```
+
 - [Table of Contents](#table-of-contents)
