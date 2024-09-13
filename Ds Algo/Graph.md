@@ -1,12 +1,40 @@
 # Graph
 
+
+## Table of Contents
+
+
+- [Table of Contents](#table-of-contents)
+- [Cycle Detection In Undiected Graph](#cycle-detection-in-undiected-graph)
+- [Cycle Detection in Undirected graphs Using DFS](#using-dfs)
+- [Cycle Detection in Undirected graphs using BFS](#using-bfs)
+- [Cycle Detection in Undirected graphs Using DSU](#using-dsu)
+- [Cycle Detection in Directed Graph Using DFS](#cycle-detection-in-a-directed-graph-using-dfs)
+- [Topological Sort](#topological-sort)
+- [Topological Sort Using DFS and stack](#using-dfs-and-stack)
+- [Topological Sort Using BFS (KAHN's algorithm)](#using-bfs-kahns-algorithm)
+- [Cycle Detection in a directed graph Using BFS (Kahn's algorithm)](#cycle-detection-in-a-directed-graph-using-bfs-kahns-algorithm)
+- [Is Graph bipartite](#is-graph-bipartite)
+- [Is Graph Bipartite Using DFS](#using-dfs-1)
+- [Is Graph Bipartite Using BFS](#using-bfs-1)
+- [Disjoint Set Union (DSU)](#disjoint-set-union-dsu)
+- [Normal (DSU)](#normal-dsu)
+- [Rank and Path Compression (DSU)](#rank-and-path-compression-dsu)
+
+
+
+
+
+
+
 ## Cycle Detection In Undiected Graph
 
 ### Using DFS
 
 
 -  **Intution :-**
-1. The goal is to determine if there is a cycle in an undirected graph. In an undirected graph, a cycle is a path that starts and ends at the same vertex, and we need to ensure that we can detect such paths.
+
+The code detects cycles in an undirected graph using Depth-First Search (DFS). It traverses each node and its neighbors, marking nodes as visited to track traversal. The `dfs` function checks if a node's neighbor is already visited and not the direct parent, indicating a cycle. The cycle detection is propagated up the call stack if found. The `isCycle` function ensures all components are checked, returning `true` if any cycle is detected, and `false` otherwise.
 
 
 ```cpp
@@ -38,12 +66,14 @@ public:
 };
 
 ```
+- [Table of Contents](#table-of-contents)
 
 ### Using BFS
 
 
 -  **Intution :-**
-1. The goal is to detect cycles in an undirected graph using BFS. Unlike DFS, which explores deeper into the graph before backtracking, BFS explores the graph level by level. The approach for detecting cycles using BFS involves keeping track of the parent node of each visited node to distinguish between back edges (which indicate cycles) and tree edges.
+
+The code detects cycles in an undirected graph using Breadth-First Search (BFS). It processes each node with BFS, tracking the parent of each node to distinguish back edges. If a visited node is encountered that isn't the parent of the current node, a cycle is detected. The `isCycleBFS` function performs BFS from each unvisited node, while `isCycle` ensures all components of the graph are checked. If any component contains a cycle, the function returns `true`; otherwise, it returns `false`.
 
 
 ``` Cpp
@@ -88,15 +118,13 @@ class Solution {
     }
 };
 ```
+- [Table of Contents](#table-of-contents)
 
 ### Using DSU
 
 -  **Intution :-**
-The Disjoint Set Union (DSU) data structure is ideal for managing a collection of disjoint sets and efficiently supports two operations:
-1. Union: Combine two sets into one.
-2. Find: Determine which set a particular element belongs to.
 
-To detect cycles in an undirected graph, DSU helps in efficiently tracking and merging components of the graph. The presence of a cycle can be detected if two vertices that are connected by an edge belong to the same component.
+The code detects cycles in an undirected graph using the Disjoint Set Union (DSU) data structure. It employs path compression in the `find` function to keep the tree flat and improve efficiency. The `unionSets` function merges two sets, using union by rank to attach smaller trees under larger ones, minimizing tree height. As it processes each edge, it checks if both vertices belong to the same set (indicating a cycle). If any edge connects nodes already in the same set, a cycle is detected; otherwise, no cycle is present.
 
 
 
@@ -161,6 +189,7 @@ public:
     }
 };
 ```
+- [Table of Contents](#table-of-contents)
 
 
 ## Cycle Detection in a directed graph Using DFS
@@ -204,6 +233,7 @@ class Solution {
     }
 };
 ```
+- [Table of Contents](#table-of-contents)
 
 ## Topological Sort
 
@@ -259,6 +289,7 @@ class Solution
 	}
 };
 ```
+- [Table of Contents](#table-of-contents)
 
 ### Using BFS (KAHN's algorithm)
 
@@ -308,6 +339,7 @@ class Solution {
 	}
 };
 ```
+- [Table of Contents](#table-of-contents)
 
 
 ## Cycle Detection in a directed graph Using BFS (Kahn's algorithm)
@@ -358,9 +390,10 @@ class Solution {
     }
 };
 ```
+- [Table of Contents](#table-of-contents)
 
 ## Is Graph bipartite
-### Using the DFS
+### Using DFS
 
 - **intution:-**
 
@@ -412,6 +445,7 @@ public:
 	}
 };
 ```
+- [Table of Contents](#table-of-contents)
 
 ### Using BFS
 
@@ -466,6 +500,7 @@ public:
 	}
 };
 ```
+- [Table of Contents](#table-of-contents)
 
 
 ## Disjoint Set Union (DSU)
@@ -505,6 +540,7 @@ void unionSets(int parent[], int element1, int element2) {
     parent[root1] = root2;
 }
 ```
+- [Table of Contents](#table-of-contents)
 
 ### Rank and Path Compression (DSU)
 
@@ -552,3 +588,4 @@ void unionSets(int setA, int setB) {
     }
 }
 ```
+- [Table of Contents](#table-of-contents)
