@@ -23,6 +23,8 @@
 - [Dijkstra Algorithm](#dijkstra-algorithm)
 - [Dijkstra Algorithm Using Priority Queue (Min Heap)](#using-priority-queue-min-heap)
 
+- [Dijkstra Algorithm Using Set](#using-set)
+
 
 
 
@@ -644,3 +646,63 @@ public:
 ```
 
 - [Table of Contents](#table-of-contents)
+
+
+### Using Set
+
+- **Intution:-**
+
+In this implementation of Dijkstra's algorithm, a `set` is used to keep track of vertices and their current shortest distances. The algorithm starts by initializing the distance to the source vertex as 0 and all others as infinity, then it adds the source vertex to the set. As it processes vertices, it always selects the one with the smallest distance from the set. For each vertex, the algorithm updates the distances to its neighboring vertices if a shorter path is found. If the distance to a neighbor is updated, the old distance is removed from the set and the new distance is added. This process continues until all vertices are processed, resulting in the shortest paths from the source vertex to all other vertices.
+
+
+```cpp
+class Solution {
+public:
+    // Function to find the shortest distance of all vertices from the source vertex S
+    vector<int> dijkstra(int numVertices, vector<vector<int>> adj[], int source) {
+        // Set to keep track of vertices and their current shortest distance
+        set<pair<int, int>> minHeap;
+        
+        // Vector to store the shortest distance from the source to each vertex
+        vector<int> shortestDistances(numVertices, INT_MAX);
+
+        // Initialize the source vertex distance to 0 and add it to the set
+        shortestDistances[source] = 0;
+        minHeap.insert({0, source});
+
+        // Process the set
+        while (!minHeap.empty()) {
+            // Get the vertex with the smallest distance
+            auto current = *minHeap.begin();
+            int currentDistance = current.first;
+            int currentNode = current.second;
+            minHeap.erase(current);
+
+            // Explore all adjacent vertices
+            for (const auto& neighbor : adj[currentNode]) {
+                int edgeWeight = neighbor[1];
+                int adjacentNode = neighbor[0];
+
+                // Check if a shorter path to the adjacent node is found
+                if (currentDistance + edgeWeight < shortestDistances[adjacentNode]) {
+                    // Remove the old distance from the set, if it exists
+                    if (shortestDistances[adjacentNode] != INT_MAX) {
+                        minHeap.erase({shortestDistances[adjacentNode], adjacentNode});
+                    }
+                    // Update the shortest distance
+                    shortestDistances[adjacentNode] = currentDistance + edgeWeight;
+                    // Add the updated distance to the set
+                    minHeap.insert({shortestDistances[adjacentNode], adjacentNode});
+                }
+            }
+        }
+
+        return shortestDistances;
+    }
+};
+
+```
+- [Table of Contents](#table-of-contents)
+
+
+
