@@ -22,8 +22,10 @@
 - [Rank and Path Compression (DSU)](#rank-and-path-compression-dsu)
 - [Dijkstra Algorithm](#dijkstra-algorithm)
 - [Dijkstra Algorithm Using Priority Queue (Min Heap)](#using-priority-queue-min-heap)
-
 - [Dijkstra Algorithm Using Set](#using-set)
+- [Bellman Ford Algorithm](#bellman-ford-algorithm)
+- [Floyd Warshall Algorithm](#floyd-warshall-algorithm)
+- [Minimum Spanning Tree](#minimum-spannig-tree-mst--minimum-weight-spanning-tree)
 
 
 
@@ -596,6 +598,8 @@ void unionSets(int setA, int setB) {
 
 ## Dijkstra Algorithm
 
+Dijkstra's algorithm is used to find the shortest path from a single source vertex to all other vertices in a graph with non-negative edge weights. It's commonly applied in network routing protocols to determine the most efficient path for data packets. The algorithm is ideal for applications such as GPS navigation systems to calculate the shortest route, as well as in various optimization problems like project scheduling and resource allocation. It efficiently handles sparse graphs and is well-suited for scenarios where real-time pathfinding is required.
+
 ### Using Priority Queue (Min Heap)
 
 - **intution:-**
@@ -706,3 +710,104 @@ public:
 
 
 
+
+## Bellman Ford Algorithm
+
+Bellman-Ford algorithm is used to find the shortest paths from a single source vertex to all other vertices in a graph, even when the graph contains negative edge weights. It's particularly useful for detecting negative weight cycles, which can be critical for applications like financial arbitrage detection and route optimization in environments where costs can decrease. Unlike Dijkstra's algorithm, Bellman-Ford can handle graphs with negative weights but is slower in practice. It’s also used in network routing to handle scenarios where edge weights might not be positive, ensuring accurate path calculations in various financial and logistics applications.
+
+![alt text](image.png)
+
+**Intution:-**
+
+This C++ code implements the Bellman-Ford algorithm to find the shortest paths from a source vertex to all other vertices in a weighted graph. It initializes distances from the source to all vertices as infinity, except for the source itself, which is set to zero. The algorithm relaxes all edges up to `numVertices - 1` times to update the shortest paths. Afterward, it checks for negative weight cycles by attempting one more relaxation; if any distance can still be reduced, a negative cycle is detected and `-1` is returned. Otherwise, it returns the vector of shortest distances from the source.
+
+```cpp
+class Solution {
+public:
+    vector<int> bellman_ford(int numVertices, vector<vector<int>>& edges, int source) {
+        // Initialize distances from source to all vertices as infinity
+        vector<int> distances(numVertices, 1e8);
+        distances[source] = 0; // Distance from source to itself is zero
+        
+        // Relax all edges numVertices - 1 times
+        for(int i = 1; i <= numVertices - 1; ++i) {
+            for(const auto& edge : edges) {
+                int startVertex = edge[0];
+                int endVertex = edge[1];
+                int weight = edge[2];
+                
+                // Update the distance if a shorter path is found
+                if(distances[startVertex] != 1e8 && distances[startVertex] + weight < distances[endVertex]) {
+                    distances[endVertex] = distances[startVertex] + weight;
+                }
+            }
+        }
+        
+        // Check for negative weight cycles
+        for(const auto& edge : edges) {
+            int startVertex = edge[0];
+            int endVertex = edge[1];
+            int weight = edge[2];
+            
+            if(distances[startVertex] != 1e8 && distances[startVertex] + weight < distances[endVertex]) {
+                return {-1}; // Negative cycle detected
+            }
+        }
+        
+        return distances;
+    }
+};
+```
+- [Table of Contents](#table-of-contents)
+
+## Floyd Warshall Algorithm
+
+The Floyd-Warshall algorithm is used to find the shortest paths between all pairs of vertices in a weighted graph, including those with negative edge weights. It’s useful for applications requiring comprehensive distance information between every pair of nodes, such as in transportation networks and urban planning for route optimization. This algorithm is commonly applied in scenarios involving network analysis, like in traffic management systems and communication networks. It’s also beneficial for problems where shortest paths need to be recalculated frequently. Although less efficient for very large graphs compared to other algorithms, its ability to handle negative weights makes it versatile.
+
+**Intution:-**
+
+This code implements the Floyd-Warshall algorithm to compute the shortest paths between all pairs of vertices in a graph. Initially, it replaces any `-1` entries in the `distanceMatrix` with `INT_MAX` to represent infinity for non-existent edges, except for self-loops. It then uses three nested loops to update the matrix with the shortest paths, considering each vertex as an intermediate point and ensuring that paths are updated if a shorter route is found through this intermediate. After computing the shortest paths, it converts `INT_MAX` values back to `-1` to indicate no path exists. This approach efficiently handles graphs with missing edges and potentially negative weights.
+
+```cpp
+class Solution {
+public:
+    void shortest_distance(vector<vector<int>>& distanceMatrix) {
+        int numVertices = distanceMatrix.size();
+        
+        // Replace -1 with a large value to represent infinity
+        for(int i = 0; i < numVertices; i++) {
+            for(int j = 0; j < numVertices; j++) {
+                if(distanceMatrix[i][j] == -1 && i != j) {
+                    distanceMatrix[i][j] = INT_MAX;
+                }
+            }
+        }
+        
+        // Floyd-Warshall algorithm to find shortest paths
+        for(int k = 0; k < numVertices; k++) {
+            for(int i = 0; i < numVertices; i++) {
+                for(int j = 0; j < numVertices; j++) {
+                    if(distanceMatrix[i][k] != INT_MAX && distanceMatrix[k][j] != INT_MAX) {
+                        distanceMatrix[i][j] = min(distanceMatrix[i][j], distanceMatrix[i][k] + distanceMatrix[k][j]);
+                    }
+                }
+            }
+        }
+        
+        // Replace large values back to -1 to represent no path
+        for(int i = 0; i < numVertices; i++) {
+            for(int j = 0; j < numVertices; j++) {
+                if(distanceMatrix[i][j] == INT_MAX) {
+                    distanceMatrix[i][j] = -1;
+                }
+            }
+        }
+    }
+};
+```
+
+- [Table of Contents](#table-of-contents)
+
+## Minimum Spannig Tree (MST) || (Minimum weight spanning tree)
+
+A Minimum Spanning Tree (MST) is a subset of the edges in a connected, undirected graph that connects all vertices together `without any cycles`, and with the minimal possible total edge weight. The MST is used to ensure that all points in a network are connected with the least total cost, making it fundamental in network design, such as designing the layout of electrical grids, telecommunications, or computer networks. It also finds applications in clustering algorithms, where it helps in organizing data into clusters with minimal inter-cluster distances. Additionally, MST algorithms are utilized in optimizing road and transportation networks, creating efficient routing systems, and solving various optimization problems in operations research. The most common algorithms to find MSTs include Kruskal's and Prim's algorithms, both of which are designed to handle various types of graphs efficiently.
