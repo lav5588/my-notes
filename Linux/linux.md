@@ -102,3 +102,70 @@ The command `cat file.txt | tr a-z A-Z > upper.txt` converts all lowercase lette
 
 Use `\` after a command if you want to write more commands in next line.
 ---
+    cp file.txt copied_file.txt
+The command `cp file.txt copied_file.txt` copies the contents of `file.txt` into a new file named `copied_file.txt`. If `copied_file.txt` already exists, it will be overwritten with the contents of `file.txt`.
+
+---
+    mv file.txt folderName
+The command `mv file.txt folderName` moves the file `file.txt` into the directory `folderName`. If `folderName` is a valid directory, the file will be relocated there. If `folderName` is not a directory, the command will rename `file.txt` to `folderName`.
+
+---
+    mv file.txt newFile.txt
+The command `mv file.txt newFile.txt` renames the file `file.txt` to `newFile.txt` in the same directory. If `newFile.txt` already exists, it will be overwritten with the contents of `file.txt`.
+
+---
+    mv name.txt ../newName.txt
+The command `mv name.txt ../newName.txt` moves the file `name.txt` from the current directory to the parent directory. It renames the file to `newName.txt` in the process. If a file named `newName.txt` already exists in the parent directory, it will be replaced.
+
+---
+    rm file.txt
+The command `rm file.txt` deletes the file `file.txt` from the current directory. Once removed, the file cannot be easily recovered unless restored from a backup.
+
+---
+    cp -R test random
+The command `cp -R test random` recursively copies the directory `test` and all of its contents into a new directory named `random`. If `random` does not exist, it will be created. If `random` already exists, `test` will be copied inside it as a subdirectory.
+
+---
+    mv test renamedTest
+The command `mv test renamedTest` renames the directory `test` to `renamedTest` in the same location. If a directory named `renamedTest` already exists, the `test` directory will be moved inside it. If `renamedTest` does not exist, it will replace the name of `test` with `renamedTest`.
+
+---
+    rm -R renamedTest
+The command `rm -R renamedTest` recursively deletes the directory `renamedTest` and all of its contents, including subdirectories and files. This operation is irreversible and will permanently remove the directory and everything inside it. Use caution, as the deleted data cannot be easily recovered.
+
+---
+    rm -rf renamed
+The command `rm -rf renamed` forcefully and recursively deletes the directory `renamed` along with all of its contents, including subdirectories and files. The `-f` flag bypasses prompts and warnings, while the `-r` flag ensures that all nested files and directories are removed. This action is irreversible and will permanently erase all specified data.
+
+---
+
+`sudo` refers `Super User Do`. When we need to do some administrative action then we need to use `sudo`.
+---
+    df
+The command `df` displays information about the disk space usage of all mounted file systems. It shows the total size, used space, available space, and the percentage of space used for each file system. By default, the output includes file systems mounted on local disks. You can use options like `-h` to format the output in a human-readable form with units like GB and MB. This command helps monitor disk usage and manage storage efficiently.
+
+---
+    du
+The command `du` (disk usage) estimates and displays the amount of disk space used by files and directories. By default, it provides a summary of space usage for the current directory and its subdirectories in kilobytes. Options like `-h` can be used to format the output in a human-readable form, showing sizes in KB, MB, or GB. The `-s` option summarizes the total usage for each specified directory, while `-a` includes individual files in the output. This command is useful for tracking space consumption and managing disk storage.
+
+---
+    head file.txt
+The command `head file.txt` displays the first 10 lines of the file `file.txt` by default. It is useful for quickly viewing the beginning of a file to check its contents or format. You can specify a different number of lines to show by using the `-n` option, e.g., `head -n 20 file.txt` for the first 20 lines. The command helps in previewing large files without opening the entire document. It is often used in combination with other commands in Unix-like systems for efficient file processing.
+
+---
+    tail file.txt
+The command `tail file.txt` displays the last 10 lines of the file `file.txt` by default. It is useful for viewing the end of a file, which is particularly helpful for checking logs or recent additions. You can specify a different number of lines to display by using the `-n` option, such as `tail -n 20 file.txt` for the last 20 lines. Additionally, the `-f` option can be used to follow the file in real-time, showing new lines as they are added, which is useful for monitoring log files. This command is commonly used in system administration and debugging tasks.
+
+---
+    diff total.txt two.txt
+The command `diff total.txt two.txt` compares the contents of the files `total.txt` and `two.txt` line by line. It outputs the differences between the two files, highlighting what has been added, removed, or changed. The output format typically includes lines prefixed with `<` or `>` to indicate which file each line is from. This command is useful for identifying changes between file versions, such as in source code or configuration files. Options like `-u` can be used for a unified format, which provides a more readable view of the differences.
+
+---
+    locate "*.txt"
+The command `locate "*.txt"` searches for files with the `.txt` extension across the system based on the database maintained by the `locate` command. It returns a list of file paths that match the search pattern, providing a quick way to find all text files. The `locate` command relies on an index that is updated periodically by the system, which means the results might not include files created or moved since the last update. For real-time file searches, consider using `find` instead. The `locate` command is efficient and faster for large-scale searches compared to other methods.
+
+---
+    find random
+The command `find random` searches for files and directories within the directory named `random` and its subdirectories. By default, it lists all files and directories found in `random` without applying any filters. The command can be customized with various options and expressions to search for specific file types, names, or attributes, such as `find random -name "*.txt"` to find all text files. It’s highly versatile and useful for locating files based on criteria like size, modification time, or permissions. The `find` command is powerful for complex search tasks and is widely used in Unix-like operating systems.
+
+---
