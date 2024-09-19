@@ -811,3 +811,52 @@ public:
 ## Minimum Spannig Tree (MST) || (Minimum weight spanning tree)
 
 A Minimum Spanning Tree (MST) is a subset of the edges in a connected, undirected graph that connects all vertices together `without any cycles`, and with the minimal possible total edge weight. The MST is used to ensure that all points in a network are connected with the least total cost, making it fundamental in network design, such as designing the layout of electrical grids, telecommunications, or computer networks. It also finds applications in clustering algorithms, where it helps in organizing data into clusters with minimal inter-cluster distances. Additionally, MST algorithms are utilized in optimizing road and transportation networks, creating efficient routing systems, and solving various optimization problems in operations research. The most common algorithms to find MSTs include Kruskal's and Prim's algorithms, both of which are designed to handle various types of graphs efficiently.
+
+
+### Prim's Algorithm
+
+**Intution:-**
+
+The Prim's algorithm begins by initializing a priority queue (min-heap) to store edges and a boolean array to track which vertices have been included in the Minimum Spanning Tree (MST). The algorithm repeatedly extracts the edge with the smallest weight from the heap, connecting a vertex that hasn't yet been added to the MST. When an edge is selected, its weight is added to the total weight, and the corresponding vertex is marked as included in the MST. The algorithm then explores all adjacent vertices of the newly added vertex, pushing those not already in the MST into the heap along with their edge weights. This process continues until all vertices are included in the MST, resulting in the total weight representing the sum of the edges in the MST.
+
+```cpp
+class Solution
+{
+    typedef pair<int, int> Edge; // Using Edge to represent weight and vertex
+public:
+    // Function to find the sum of weights of edges of the Minimum Spanning Tree
+    int spanningTree(int numVertices, vector<vector<int>> adjacencyList[]) {
+        priority_queue<Edge, vector<Edge>, greater<Edge>> minHeap; // Min-heap to store edges
+        minHeap.push({0, 0}); // Start from vertex 0 with weight 0
+        vector<bool> inMST(numVertices, false); // Track vertices included in MST
+        int totalWeight = 0; // Sum of weights of the edges in the MST
+        
+        while (!minHeap.empty()) {
+            auto currentEdge = minHeap.top(); // Get the edge with the smallest weight
+            minHeap.pop();
+            
+            int edgeWeight = currentEdge.first; // Weight of the edge
+            int currentNode = currentEdge.second; // Current vertex
+            
+            if (inMST[currentNode]) // If the vertex is already in MST, skip it
+                continue;
+            
+            inMST[currentNode] = true; // Include this vertex in the MST
+            totalWeight += edgeWeight; // Add edge weight to the total
+            
+            // Explore adjacent vertices
+            for (auto &neighbor : adjacencyList[currentNode]) {
+                int adjacentVertex = neighbor[0]; // Neighbor vertex
+                int neighborWeight = neighbor[1]; // Weight of the edge to the neighbor
+                
+                if (!inMST[adjacentVertex]) { // If neighbor is not yet in MST
+                    minHeap.push({neighborWeight, adjacentVertex}); // Push to the min-heap
+                }
+            }
+        }
+        
+        return totalWeight; // Return the total weight of the MST
+    }
+};
+```
+- [Table of Contents](#table-of-contents)
