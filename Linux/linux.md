@@ -308,3 +308,71 @@ In Linux and Unix-like operating systems, the "root" user is the superuser with 
 ---
     find . -type f -name "*.txt" -exec  rm -rf {} +
 The command `find . -type f -name "*.txt" -exec rm -rf {} +` searches for all files with a `.txt` extension in the current directory and its subdirectories. It uses the `-type f` option to ensure only regular files are targeted. The `-exec` option allows the command to execute a specified action on each found file, in this case, removing them with `rm -rf`. The `{}` placeholder represents the files found, and the `+` at the end allows for more efficient execution by passing multiple files to the `rm` command at once. This command permanently deletes all matching text files, so it should be `used with caution`.
+
+---
+## What is grep ?
+`grep` is a command-line utility in Unix and Linux used for searching plain-text data for lines that match a specified pattern. It stands for `"global regular expression print"` and supports regular expressions, allowing for flexible and powerful search capabilities. Users can search through files, standard input, or command output, making it a versatile tool for text processing. Common options include case sensitivity control, line numbering, and inverse matching. `grep` is widely used in scripts and command-line operations for data extraction and analysis, making it an essential tool for system administrators and developers.
+
+---
+    grep "Lav" names.txt
+The command `grep "Lav" names.txt` searches for the string "Lav" within the file `names.txt`. It returns all lines from the file that contain the specified pattern, allowing users to quickly find relevant entries. This command is useful for filtering text data and locating specific information efficiently.
+
+---
+    grep -w "Lav" names.txt
+The `-w` option in the command `grep -w "Lav" names.txt` restricts the search to whole words only, ensuring that only instances of "Lav" that appear as a standalone word are matched. This prevents partial matches, such as "Lavender" or "Laver", from being included in the results.
+
+---
+    grep -i "lav" names.txt
+The `-i` option in the command `grep -i "lav" names.txt` makes the search case-insensitive, allowing it to match "Lav", "lav", "LAV", and any other variations regardless of case. This is useful for finding entries without worrying about the capitalization of the search term.
+
+---
+    grep -n "Lav" names.txt
+The `-n` option in the command `grep -n "Lav" names.txt` displays the line numbers along with the matching lines in the output. This helps users quickly locate the position of each match within the file, making it easier to reference specific entries.
+
+---
+    grep -win "lav" names.txt
+The command `grep -win "lav" names.txt` combines the `-w`, `-i`, and `-n` options to search for the whole word "lav" in a case-insensitive manner while displaying line numbers. This ensures that only exact matches as standalone words are returned, along with their corresponding line numbers in the file.
+
+---
+    grep -B 3 "lav" names.txt
+The `-B 3` option in the command `grep -B 3 "lav" names.txt` instructs `grep` to display three lines of context before each matching line containing "lav". This is useful for providing additional context around the match, helping users understand the surrounding content.
+
+---
+    grep -win "Lav" ./*.txt
+The pattern `./*.txt` in the command `grep -win "Lav" ./*.txt` specifies that `grep` should search for the term "Lav" in all text files (`*.txt`) located in the current directory (`./`). This allows for a convenient way to filter and search through multiple text files at once without needing to specify each file individually.
+
+---
+    grep -rwin "Lav" .
+The `-r` option in the command `grep -rwin "Lav" .` enables recursive searching, allowing `grep` to search for the term "Lav" in all files within the current directory and its subdirectories. This is useful for locating matches across multiple files and directories without having to specify each one individually.
+
+---
+    grep -wirl "Lav" .
+The `-l` option in the command `grep -wirl "Lav" .` instructs `grep` to list only the names of files that contain the whole word "Lav", rather than displaying the matching lines. This makes it easier to identify which files include the specified term, streamlining the search process.
+
+---
+    grep -wirc "lav" .
+The `-c` option in the command `grep -wirc "lav" .` tells `grep` to count and display the number of lines that match the whole word "lav" across all files in the current directory and its subdirectories. This provides a quick summary of how many lines contain the specified term, rather than showing the actual matching lines.
+
+---
+    history
+The `history` command displays a list of previously executed commands in the terminal, allowing users to view and reuse past commands easily.
+
+---
+    history | grep "ls"
+The command `history | grep "ls"` searches the command history for all instances of commands that contain "ls". By piping the output of `history` into `grep`, users can quickly find specific usages of the `ls` command, which is commonly used for listing directory contents. This is helpful for reviewing past actions and recalling specific command options or arguments used.
+
+---
+    grep -P "<REGEX>" names.txt
+The command `grep -P "<REGEX>" names.txt` uses the `-P` option to enable Perl-compatible regular expressions for pattern matching in the file `names.txt`. This allows for advanced regex features that are not available with basic or extended regex, providing more flexibility in search patterns. It is particularly useful for complex string matching, such as assertions or advanced character classes.
+
+---
+    grep -p "\w" companies.txt
+The command `grep -P "\w" companies.txt` uses the `-P` option to enable Perl-compatible regular expressions and searches for lines in `companies.txt` that contain any word character (letters, digits, or underscores). This command effectively filters and displays lines that include at least one word character, making it useful for identifying relevant entries in the file.
+
+---
+    grep -p "\d{3}-\d{3}-\d{4}" companies.txt
+The command `grep -P "\d{3}-\d{3}-\d{4}" companies.txt` uses the `-P` option to enable Perl-compatible regular expressions and searches for patterns in `companies.txt` that match the format of a US phone number (e.g., 123-456-7890). The pattern `\d{3}-\d{3}-\d{4}` specifies exactly three digits followed by a hyphen, another three digits, another hyphen, and four digits. This command is useful for extracting lines that contain valid phone number formats from the file.
+
+---
+    alias
+The `alias` command in the terminal is used to create shortcuts for longer commands, allowing users to define custom command names or abbreviations. For example, by typing `alias ll='ls -la'`, users can simply use `ll` to list directory contents in a detailed format.
