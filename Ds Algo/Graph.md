@@ -26,6 +26,8 @@
 - [Bellman Ford Algorithm](#bellman-ford-algorithm)
 - [Floyd Warshall Algorithm](#floyd-warshall-algorithm)
 - [Minimum Spanning Tree](#minimum-spannig-tree-mst--minimum-weight-spanning-tree)
+- [Minimum Spanning Tree Using Prim's Algorithm](#prims-algorithm)
+- [Minimum Spanning Tree Using Kruskal's Algorithm](#kruskal-algorithm)
 
 
 
@@ -819,6 +821,8 @@ A Minimum Spanning Tree (MST) is a subset of the edges in a connected, undirecte
 
 The Prim's algorithm begins by initializing a priority queue (min-heap) to store edges and a boolean array to track which vertices have been included in the Minimum Spanning Tree (MST). The algorithm repeatedly extracts the edge with the smallest weight from the heap, connecting a vertex that hasn't yet been added to the MST. When an edge is selected, its weight is added to the total weight, and the corresponding vertex is marked as included in the MST. The algorithm then explores all adjacent vertices of the newly added vertex, pushing those not already in the MST into the heap along with their edge weights. This process continues until all vertices are included in the MST, resulting in the total weight representing the sum of the edges in the MST.
 
+Prim's algorithm is a greedy algorithm used to find the Minimum Spanning Tree (MST) of a connected, undirected graph. The algorithm starts with a single vertex and grows the MST by repeatedly adding the smallest edge that connects a vertex in the tree to a vertex outside the tree. It initializes the MST with one vertex and progressively adds edges, ensuring that no cycles are formed. This process continues until all vertices are included in the MST. The result is a tree that connects all vertices with the minimum total edge weight.
+
 ```cpp
 class Solution
 {
@@ -858,5 +862,102 @@ public:
         return totalWeight; // Return the total weight of the MST
     }
 };
+```
+- [Table of Contents](#table-of-contents)
+
+
+### Kruskal Algorithm
+
+**Intution:-**
+
+This code implements Kruskal's algorithm to find the Minimum Spanning Tree (MST) of a graph using a Disjoint Set Union (DSU) structure. It initializes parent and rank arrays to manage the connected components of the graph. The `find` function uses path compression to efficiently locate the root of a node, while the `unionSets` function merges two sets based on their ranks. The edges are extracted from the adjacency list, sorted by weight, and processed to build the MST. Finally, the total weight of the edges in the MST is returned.
+
+Kruskal's algorithm is a greedy algorithm used to find the Minimum Spanning Tree (MST) of a connected, undirected graph. The algorithm operates by sorting all the edges of the graph in non-decreasing order of their weights. It then iteratively adds the smallest edge to the MST, provided that it does not form a cycle with the edges already included in the MST. This process continues until there are ( V - 1 ) edges in the MST, where ( V ) is the number of vertices in the graph. The result is a tree that connects all vertices with the minimum possible total edge weight.
+
+```cpp
+class Solution {
+public:
+    // Disjoint Set Union (DSU) members
+    vector<int> parent; // Parent array for union-find
+    vector<int> rank;   // Rank array for union optimization
+
+    // Find the root of the node with path compression
+    int find(int node) {
+        if (node == parent[node])
+            return node;
+        return parent[node] = find(parent[node]);
+    }
+
+    // Union the two sets
+    void unionSets(int node1, int node2) {
+        int root1 = find(node1);
+        int root2 = find(node2);
+
+        if (root1 == root2) 
+            return;
+
+        if (rank[root1] > rank[root2]) {
+            parent[root2] = root1;
+        } else if (rank[root1] < rank[root2]) {
+            parent[root1] = root2;
+        } else {
+            parent[root1] = root2;
+            rank[root2]++;
+        }
+    }
+
+    // Kruskal's algorithm to find the Minimum Spanning Tree (MST)
+    int kruskalMST(vector<vector<int>>& edges) {
+        int totalWeight = 0; // Total weight of the MST
+
+        for (auto& edge : edges) {
+            int vertex1 = edge[0];
+            int vertex2 = edge[1];
+            int weight = edge[2];
+
+            int root1 = find(vertex1);
+            int root2 = find(vertex2);
+
+            if (root1 != root2) {
+                unionSets(vertex1, vertex2);
+                totalWeight += weight; // Add weight to the total
+            }
+        }
+
+        return totalWeight; // Return the total weight of the MST
+    }
+
+    // Function to find the sum of weights of edges of the Minimum Spanning Tree
+    int spanningTree(int numVertices, vector<vector<int>> adj[]) {
+        // Initialize parent and rank arrays
+        parent.resize(numVertices);
+        rank.resize(numVertices, 0);
+
+        for (int i = 0; i < numVertices; i++)
+            parent[i] = i; // Each vertex is its own parent initially
+
+        vector<vector<int>> edges; // Store all edges
+
+        // Build the edges list from adjacency list
+        for (int i = 0; i < numVertices; i++) {
+            for (auto& neighbor : adj[i]) {
+                int vertex = i;
+                int adjacentVertex = neighbor[0];
+                int weight = neighbor[1];
+
+                edges.push_back({vertex, adjacentVertex, weight});
+            }
+        }
+
+        // Sort edges by weight
+        sort(edges.begin(), edges.end(), [](const auto& edge1, const auto& edge2) {
+            return edge1[2] < edge2[2];
+        });
+
+        // Apply Kruskal's algorithm
+        return kruskalMST(edges);
+    }
+};
+
 ```
 - [Table of Contents](#table-of-contents)
