@@ -169,3 +169,142 @@ The command `locate "*.txt"` searches for files with the `.txt` extension across
 The command `find random` searches for files and directories within the directory named `random` and its subdirectories. By default, it lists all files and directories found in `random` without applying any filters. The command can be customized with various options and expressions to search for specific file types, names, or attributes, such as `find random -name "*.txt"` to find all text files. It’s highly versatile and useful for locating files based on criteria like size, modification time, or permissions. The `find` command is powerful for complex search tasks and is widely used in Unix-like operating systems.
 
 ---
+    find .
+The `find` command in Linux is used to search for files and directories within a specified directory hierarchy based on various criteria such as name, size, type, and modification time. It allows users to perform actions on the found items, such as deleting or moving them, making it a powerful tool for file management.
+
+---
+    find . -type d
+The command `find . -type d` searches for all directories starting from the current directory (`.`). It uses the `-type d` option to filter the results, ensuring that only directories are listed. This command is useful for quickly identifying the structure of subdirectories within the current directory.
+
+---
+    find . -type f
+`f` for files.
+
+---
+    find . -type f -name "two.txt"
+The command `find . -type f -name "two.txt"` searches for a file named "two.txt" starting from the current directory (`.`). It uses the `-type f` option to ensure that only regular files are considered, excluding directories. This command is useful for locating a specific file within a directory tree.
+
+---
+    find . -type f -name "two*"
+Files starts from `two`.
+
+---
+    find . -type f -name "*.txt"
+`all txt files` inside the current directory.
+
+---
+    find . -type f -iname "*.txt"
+The command `find . -type f -iname "*.txt"` searches for all files with a `.txt` extension in the current directory and its subdirectories, ignoring case sensitivity. This means it will match files like "example.txt", "Example.TXT", and "EXAMPLE.TxT".
+
+---
+    find . -type f -mmin -20
+The command `find . -type f -mmin -20` searches for all regular files in the current directory and its subdirectories that were modified in the last 20 minutes. The `-mmin` option specifically looks for files based on their modification time. This command is useful for quickly identifying recently updated files for review or backup.
+
+---
+    find . -type f -mmin +15
+The command `find . -type f -mmin +15` searches for all regular files in the current directory and its subdirectories that were modified more than 15 minutes ago. This is useful for identifying older files that may need attention or cleanup.
+
+---
+    find . -type f -mmin +2 -mmin -10
+The command `find . -type f -mmin +2 -mmin -10` searches for all regular files in the current directory and its subdirectories that were modified between 2 and 10 minutes ago. This allows users to locate files that were recently updated, specifically within that time frame.
+
+---
+    find . -type f -mtime -10
+The command `find . -type f -mtime -10` searches for all regular files in the current directory and its subdirectories that were modified within the last 10 days. This is useful for identifying recently updated files for review or backup.
+
+---
+    find . -type f maxdepth 1
+The command `find . -type f -maxdepth 1` searches for all regular files in the current directory without descending into subdirectories. The `-maxdepth 1` option restricts the search to the top level, making it useful for quickly listing files in the current directory.
+
+---
+    find . -size +1k
+The command `find . -size +1k` searches for all files in the current directory and its subdirectories that are larger than 1 kilobyte. This is useful for identifying larger files that may require attention or cleanup.
+
+---
+    find . -empty
+The command `find . -empty` searches for all empty files and directories in the current directory and its subdirectories.
+
+---
+    find . -perm 777
+The command `find . -perm 777` searches for all files and directories in the current directory and its subdirectories that have permissions set to read, write, and execute for all users. This is useful for identifying files with potentially insecure permissions that may need to be modified.
+
+---
+    find . -perm 770
+The command `find . -perm 770` searches for all files and directories in the current directory and its subdirectories that have permissions set to read, write, and execute for the owner and group, but no permissions for others.
+
+---
+## File System Permissions
+
+In Linux (including Ubuntu), file permissions determine the access levels for files and directories. There are three main types of permissions, each associated with a specific numeric value:
+
+1. **Read (r)**: Allows viewing the contents of a file or listing a directory's contents.
+   - **Numeric value**: 4
+
+2. **Write (w)**: Allows modifying or deleting a file or adding/removing files in a directory.
+   - **Numeric value**: 2
+
+3. **Execute (x)**: Allows executing a file as a program or entering a directory.
+   - **Numeric value**: 1
+
+4. **No Permission**:  
+    - **Numeric value**: 0
+### Permission Types:
+These permissions can be assigned to three categories of users:
+
+1. **Owner**: The user who owns the file.
+2. **Group**: A group of users that share certain permissions.
+3. **Others**: All other users who are not the owner or part of the group.
+
+### Numeric Representation:
+Permissions can be represented as a three-digit octal number, where each digit corresponds to the permissions for owner, group, and others, respectively. Each digit is the sum of the permissions:
+- **Read** = 4
+- **Write** = 2
+- **Execute** = 1
+
+For example:
+- `7` (4+2+1) means read, write, and execute permissions.
+- `5` (4+0+1) means read and execute permissions, but no write permission.
+- `0` means no permissions at all.
+
+Thus, a permission setting of `770` would grant read, write, and execute permissions to the owner and group, but no permissions to others.
+
+## What is sudo ? 
+`sudo` (short for "superuser do") is a command-line utility in Unix-like operating systems, including Linux, that allows a permitted user to execute a command as the superuser (root) or another user, as specified by the security policy. 
+
+### Key Features of `sudo`:
+- **Privilege Escalation**: It allows users to perform administrative tasks that require elevated permissions without needing to log in as the root user.
+- **Granular Control**: System administrators can configure which users can run specific commands as root or other users through the `/etc/sudoers` file.
+- **Audit Trail**: `sudo` logs all commands executed with it, which can help with security auditing and monitoring.
+- **Temporary Access**: Users can perform tasks with elevated privileges for a limited time, reducing the risk associated with maintaining a constant root session.
+
+### Common Usage:
+To use `sudo`, simply prefix the desired command with `sudo`, like this:
+```bash
+sudo apt update
+```
+This command would run `apt update` with root privileges, allowing it to modify system files as necessary.
+
+---
+    chmod u=rwx,g=rx,o=r upper.txt
+The command `chmod u=rwx,g=rx,o=r upper.txt` modifies the permissions of the file `upper.txt`. It grants the owner (user) full permissions (read, write, and execute: `rwx`), the group read and execute permissions (`rx`), and allows others to have only read permissions (`r`). This setup enables the owner to fully manage the file while providing limited access to the group and read-only access to everyone else.
+
+---
+    chmod 777 uper.txt
+The command `chmod 777 upper.txt` sets the permissions of the file `upper.txt` to allow read, write, and execute access for the owner, group, and others. This configuration grants full access to all users, making the file accessible for any operation.
+
+---
+    whoami
+The command `whoami` displays the username of the currently logged-in user in the terminal.
+
+---
+    sudo chown root upper.txt
+The command `sudo chown root upper.txt` changes the ownership of the file `upper.txt` to the user `root`. By using `sudo`, it executes the command with elevated privileges, allowing the user to modify file ownership even if they do not own the file. This is often used for administrative tasks where specific files need to be owned by the root user for security or access control purposes.
+
+---
+
+## What is root ?
+In Linux and Unix-like operating systems, the "root" user is the superuser with unrestricted access to all system commands and files. This account has the highest level of privileges, allowing it to perform any administrative tasks, such as installing software, modifying system configurations, and managing user accounts. The root user's home directory is typically located at `/root`. Because of its powerful capabilities, operating as the root user carries significant risks, as mistakes can lead to system-wide issues or security vulnerabilities. Therefore, it's recommended to use the root account only when necessary and to rely on regular user accounts for everyday tasks.
+
+---
+    find . -type f -name "*.txt" -exec  rm -rf {} +
+The command `find . -type f -name "*.txt" -exec rm -rf {} +` searches for all files with a `.txt` extension in the current directory and its subdirectories. It uses the `-type f` option to ensure only regular files are targeted. The `-exec` option allows the command to execute a specified action on each found file, in this case, removing them with `rm -rf`. The `{}` placeholder represents the files found, and the `+` at the end allows for more efficient execution by passing multiple files to the `rm` command at once. This command permanently deletes all matching text files, so it should be `used with caution`.
