@@ -376,3 +376,88 @@ The command `grep -P "\d{3}-\d{3}-\d{4}" companies.txt` uses the `-P` option to 
 ---
     alias
 The `alias` command in the terminal is used to create shortcuts for longer commands, allowing users to define custom command names or abbreviations. For example, by typing `alias ll='ls -la'`, users can simply use `ll` to list directory contents in a detailed format.
+
+//TODO:
+
+    //setting alias
+    alias gpom = "git push origin main"
+
+
+    //Shortcut in terminal
+    Ctrl a
+    ctrl e
+    ctrl k
+    ctrl u
+    ctrl r
+    tab
+    up
+    down
+
+
+    //command
+    history
+    !2747
+    !find
+    clear
+    git add .;git commit -m "message";git push origin main
+    sort -r companies.txt
+    sort  companies.txt
+    sort -f companies.txt
+    sort -n companies.txt
+    jobs
+    ping google.com
+    wget
+    brew install wget
+    wget <url>
+    wget  -o myfile.pdf <url>
+    top
+    kill <process_id>
+    uname
+    uname -o
+    uname -m
+    uname -r
+    cat /etc/os-release
+    zip files.zip companies.txt
+    zip files2.zip companies.txt file.txt
+    unzip files2.zip
+    hostname
+    hostname -i
+    useradd User
+    passwd User
+    userdel Lav
+    lscpu
+    free
+    free -h
+    vmstat
+    vmstat -S m
+    id
+    id -g
+    id -G
+    id -r
+    getent group lav
+    id User
+    lsof
+    nslookup google.com
+    netstat
+    ifconfig
+    sed
+    cut -c 1-2 companies.txt
+    htop
+    px aux
+
+
+    //operators
+    ping google.com & ping commclassroom.org
+    echo "first" && echo "second"
+    echo "first" || echo "second"
+    rm -r !(surnames.txt)
+    echo "hey" >> names.txt
+    echo "hey" > names.txt
+    echo "hey" && {echo "hi";echo "hi am goos"}
+
+    //package manager
+    apt-get
+    snap
+    rpm
+    yum
+
