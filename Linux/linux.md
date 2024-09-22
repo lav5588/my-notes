@@ -377,87 +377,363 @@ The command `grep -P "\d{3}-\d{3}-\d{4}" companies.txt` uses the `-P` option to 
     alias
 The `alias` command in the terminal is used to create shortcuts for longer commands, allowing users to define custom command names or abbreviations. For example, by typing `alias ll='ls -la'`, users can simply use `ll` to list directory contents in a detailed format.
 
-//TODO:
 
-    //setting alias
-    alias gpom = "git push origin main"
+---
+## How to set aliases of commands ?
+In Linux, when setting an alias, you need to use the correct syntax. Here’s how to define your alias properly:
 
+### Making the Alias Permanent
+If you want the alias to be available every time you open a terminal, add it to your shell configuration file:
 
-    //Shortcut in terminal
-    Ctrl a
-    ctrl e
-    ctrl k
-    ctrl u
-    ctrl r
-    tab
-    up
-    down
+1. For **bash**, open your `.bashrc` file:
+   ```bash
+   nano ~/.bashrc
+   ```
 
 
-    //command
+
+3. Add the alias line at the bottom:
+   ```bash
+   alias gpom="git push origin main"
+   ```
+   Make sure there are no spaces around the `=` sign.
+
+4. Save and close the file, then run:
+   ```bash
+   source ~/.bashrc   # For bash
+   ```
+
+---
+
+## Shortcuts
+
+
+1. **`Ctrl + A`**:  
+   Moves the cursor to the beginning of the current line.
+
+2. **`Ctrl + E`**:  
+   Moves the cursor to the end of the current line.
+
+3. **`Ctrl + K`**:  
+   Deletes (cuts) everything from the cursor position to the end of the line.
+
+4. **`Ctrl + U`**:  
+   Deletes (cuts) everything from the cursor position to the beginning of the line.
+
+5. **`Ctrl + R`**:  
+   Searches the command history interactively. You can type a part of a previous command and the shell will search for it.
+
+6. **`Tab`**:  
+   Auto-completes commands, file names, and directories. If multiple options are available, pressing `Tab` twice shows a list of possible completions.
+
+7. **`Up Arrow`**:  
+   Navigates backward through the command history to view and edit previously entered commands.
+
+8. **`Down Arrow`**:  
+   Navigates forward through the command history, after using the up arrow.
+
+
+---
+## What is package managers ?
+  ### Package Manager Overview:
+A **package manager** is a tool that automates the process of installing, upgrading, configuring, and removing software packages from a system. It ensures that dependencies are handled properly and simplifies software management.
+
+### 1. **apt-get**:
+   - APT (Advanced Package Tool) is the package manager for Debian-based systems like Ubuntu. `apt-get` is a command-line tool used to install, update, and remove software packages from the system's repositories.
+   - It manages `.deb` packages and resolves dependencies automatically.
+
+### 2. **snap**:
+   - Snap is a package management system designed by Canonical for universal, sandboxed application distribution across Linux distros. Applications are bundled with all their dependencies and run in isolation.
+   - It's particularly useful for installing newer versions of software that may not be available in traditional package repositories.
+
+### 3. **rpm**:
+   - RPM (Red Hat Package Manager) is the package management system used by Red Hat-based distributions like Fedora and CentOS. It handles `.rpm` packages.
+   - While it provides low-level package management, dependency resolution must be handled manually or with higher-level tools like `yum` or `dnf`.
+
+### 4. **yum**:
+   - YUM (Yellowdog Updater, Modified) is a high-level package manager for Red Hat-based systems that automates the process of installing, updating, and resolving dependencies for `.rpm` packages.
+   - It has been largely replaced by `dnf` in more recent Fedora and CentOS versions, but is still widely used.
+
+These package managers simplify software management and ensure a consistent system environment.
+
+---
     history
+
+The `history` command displays a list of previously executed commands in the terminal session, allowing you to view your command history. Each command is numbered, making it easy to recall and rerun commands using their corresponding number. This is useful for tracking command sequences or quickly repeating past commands.
+
+---
     !2747
+
+`!2747` runs the 2747th command from your shell history. The number corresponds to a specific command in your shell history. You can use the `history` command to view your past commands and find the corresponding number.
+
+---
     !find
+
+`!find` runs the most recent command that starts with `find` from your shell history. It's a shortcut for quickly repeating a previous `find` command without having to retype it.
+
+---
     clear
+
+`clear` clears the terminal screen, giving you a clean workspace. It does not affect running processes or commands, it only resets the visible display in the terminal.
+
+---
     git add .;git commit -m "message";git push origin main
+
+`git add .; git commit -m "message"; git push origin main` stages all changes in the current directory, commits them with the provided message, and then pushes the changes to the `main` branch on the remote repository. The `;` separates multiple commands in one line.
+
+---
     sort -r companies.txt
+
+`sort -r companies.txt` sorts the contents of the file `companies.txt` in reverse (descending) order. This only displays the sorted output and does not modify the file itself.
+
+---
     sort  companies.txt
+
+`sort companies.txt` sorts the file `companies.txt` in ascending order (the default behavior). The output is displayed in the terminal, and the file itself remains unchanged.
+
+---
     sort -f companies.txt
+
+`sort -f companies.txt` performs a case-insensitive sort of `companies.txt`. This option ignores case differences while sorting the lines in the file.
+
+---
     sort -n companies.txt
+
+`sort -n companies.txt` sorts `companies.txt` numerically, interpreting the file contents as numbers rather than text. Useful for files with numeric data.
+
+---
     jobs
+
+`jobs` lists all the background and suspended jobs running in the current terminal session. It shows job IDs and their current state (running, stopped, etc.).
+
+---
     ping google.com
+
+`ping google.com` sends ICMP echo requests to `google.com` to check its network connectivity and response time. It's useful for diagnosing network issues.
+
+---
     wget
+
+`wget` is a command-line utility for downloading files from the web. It supports HTTP, HTTPS, and FTP protocols.
+
+---
     brew install wget
+
+`brew install wget` installs the `wget` tool using Homebrew, a package manager for macOS and Linux. If `wget` is not already installed, this command downloads and installs it.
+
+---
     wget <url>
+
+`wget <url>` downloads the file located at the specified `<url>` and saves it to the current directory. By default, the file is saved with its original name.
+
+---
     wget  -o myfile.pdf <url>
+
+`wget -o myfile.pdf <url>` downloads the file from the specified `<url>` and saves it as `myfile.pdf`. The `-o` option allows you to specify a custom file name.
+
+---
     top
+
+`top` displays real-time system information including running processes, CPU usage, memory usage, and more. It provides a dynamic view of system resource consumption. Useful for monitoring system performance and diagnosing issues.
+
+---
     kill <process_id>
+
+`kill <process_id>` terminates a process by sending it a signal, usually to stop execution. The process ID (PID) must be specified to target the correct process. Commonly used to stop misbehaving or unresponsive programs.
+
+---
     uname
+
+`uname` prints basic system information, such as the operating system name. It is helpful for identifying the system type and version being used.
+
+---
     uname -o
+
+`uname -o` displays the operating system name specifically. It gives you a more detailed view of which OS is running.
+
+---
     uname -m
+
+`uname -m` outputs the machine hardware name, such as `x86_64`, which shows the architecture of your system (32-bit or 64-bit).
+
+---
     uname -r
+
+`uname -r` shows the kernel version running on your system, which can be useful for troubleshooting and ensuring compatibility with software.
+
+---
     cat /etc/os-release
+
+`cat /etc/os-release` prints detailed information about the operating system, including the distribution name, version, and release ID. This is a reliable way to identify Linux distributions.
+
+---
     zip files.zip companies.txt
+
+`zip files.zip companies.txt` compresses the file `companies.txt` into a ZIP archive named `files.zip`. This reduces the file size and makes it easier to share or store.
+
+---
     zip files2.zip companies.txt file.txt
+
+`zip files2.zip companies.txt file.txt` compresses multiple files (`companies.txt` and `file.txt`) into a single ZIP archive named `files2.zip`. Useful for bundling files together.
+
+---
     unzip files2.zip
+
+`unzip files2.zip` extracts the contents of `files2.zip`, restoring the original files. It's commonly used to decompress files for access and usage.
+
+---
     hostname
+
+`hostname` displays the name of the current host or system on the network. It provides a quick way to identify the machine you are working on, especially in a multi-system environment.
+
+---
     hostname -i
+
+`hostname -i` shows the IP address associated with the current hostname. This can help verify network settings or troubleshoot connectivity issues.
+
+---
     useradd User
+
+`useradd User` creates a new user account named "User" on the system. This command requires administrative privileges and is essential for managing user access.
+
+---
     passwd User
+
+`passwd User` sets or changes the password for the specified user account. It prompts for a new password and is used to secure user accounts.
+
+---
     userdel Lav
+
+`userdel Lav` removes the user account named "Lav" from the system. This command deletes the user and, optionally, their home directory if specified.
+
+---
     lscpu
+
+`lscpu` provides detailed information about the CPU architecture, including the number of CPUs, cores, threads, and CPU family. It is useful for understanding system capabilities.
+
+---
     free
+
+`free` displays the total amount of free and used memory in the system, including physical and swap memory. This is essential for monitoring system performance and resource usage.
+
+---
     free -h
+
+`free -h` shows the memory usage in a human-readable format, using appropriate size units (KB, MB, GB). It makes it easier to interpret memory statistics at a glance.
+
+---
     vmstat
+
+`vmstat` reports information about processes, memory, paging, block I/O, traps, and CPU activity. It provides a snapshot of system performance and is useful for performance monitoring.
+
+---
     vmstat -S m
+
+`vmstat -S m` displays memory statistics in megabytes instead of the default kilobytes. This option helps users analyze memory usage more intuitively, especially on systems with large amounts of memory.
+
+---
     id
+
+`id` displays the user ID (UID) and group ID (GID) of the current user, along with the groups they belong to. This command helps identify user permissions and roles within the system.
+
+---
     id -g
+
+`id -g` shows only the group ID (GID) of the current user. This is useful for quickly checking the primary group without additional details.
+
+---
     id -G
+
+`id -G` lists all the group IDs (GIDs) that the current user belongs to. This command provides insight into the user's group memberships and permissions.
+
+---
     id -r
+
+`id -r` displays the real user ID (UID) and group ID (GID) instead of any effective IDs, which can be helpful for understanding user privileges in various contexts.
+
+---
     getent group lav
+
+`getent group lav` retrieves information about the group named "lav" from the system's group database. It shows details like GID and group members, aiding in user management.
+
+---
     id User
+
+`id User` displays the UID and GID for the specified user "User," along with their group memberships. This is useful for checking the privileges and roles of other users.
+
+---
     lsof
+
+`lsof` lists open files and the corresponding processes using them. It provides valuable information for diagnosing issues related to file usage and system performance.
+
+---
     nslookup google.com
+
+`nslookup google.com` queries the DNS to retrieve the IP address associated with the domain "google.com." This command is helpful for network troubleshooting and verifying DNS resolution.
+
+---
     netstat
+
+`netstat` displays network connections, routing tables, interface statistics, and more. It is useful for monitoring network activity and diagnosing network issues.
+
+---
     ifconfig
+
+`ifconfig` shows the current network configuration for all active network interfaces. It provides details like IP addresses, subnet masks, and interface statuses, although it's being replaced by `ip` in many distributions.
+
+---
     sed
+
+`sed` is a stream editor used for parsing and transforming text in a pipeline. It allows for complex text manipulations such as substitutions, deletions, and insertions.
+
+---
     cut -c 1-2 companies.txt
+
+`cut -c 1-2 companies.txt` extracts the first two characters from each line of the file `companies.txt`. This command is useful for retrieving specific portions of text from a file.
+
+---
     htop
-    px aux
 
+`htop` is an interactive process viewer that provides a real-time view of system resources, running processes, and performance metrics. It offers a more user-friendly interface than `top`.
 
-    //operators
+---
+    ps aux
+
+`ps aux` displays a snapshot of all running processes on the system, including their user, CPU usage, memory usage, and command line. This command is essential for monitoring system activity and troubleshooting processes.
+
+---
     ping google.com & ping commclassroom.org
+
+In the command `ping google.com & ping commclassroom.org`, the `&` operator runs the first `ping` command in the background while immediately starting the second `ping` command. This allows both commands to execute concurrently without waiting for each other to finish.
+
+---
     echo "first" && echo "second"
+
+The command `echo "first" && echo "second"` uses the `&&` operator to execute the second `echo` command only if the first one is successful. This is useful for chaining commands where the success of one command dictates whether the next should run.
+
+---
     echo "first" || echo "second"
+
+In `echo "first" || echo "second"`, the `||` operator runs the second `echo` command only if the first one fails. This operator is useful for providing alternative actions in case of errors in the preceding command.
+
+---
     rm -r !(surnames.txt)
+
+The command `rm -r !(surnames.txt)` uses the extended globbing feature to remove all files in the current directory except `surnames.txt`. This allows for selective file operations based on patterns.
+
+---
     echo "hey" >> names.txt
+
+In `echo "hey" >> names.txt`, the `>>` operator appends the string "hey" to the end of `names.txt`, preserving existing content. This is useful for adding information to a file without overwriting it.
+
+---
     echo "hey" > names.txt
+
+The command `echo "hey" > names.txt` uses the `>` operator to overwrite `names.txt` with the string "hey". This operator is useful when you want to replace the entire content of a file with new data.
+
+---
     echo "hey" && {echo "hi";echo "hi am goos"}
 
-    //package manager
-    apt-get
-    snap
-    rpm
-    yum
+In `echo "hey" && {echo "hi"; echo "hi am good"}`, the command runs the block of commands inside the braces only if the first `echo` command succeeds, effectively grouping related commands together for conditional execution. This is useful for executing multiple commands in a single logical block based on the success of a preceding command.
 
+---
