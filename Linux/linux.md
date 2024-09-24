@@ -81,7 +81,7 @@ The command `cat one.txt two.txt > three.txt` reads the contents of `one.txt` an
 
 ---
     cat one.txt two.txt
-    The command `cat one.txt two.txt` displays the contents of `one.txt` followed immediately by the contents of `two.txt` in the terminal. It does not modify or create any files; it simply outputs the combined contents to the screen. This command is useful for viewing the contents of multiple files in sequence.
+The command `cat one.txt two.txt` displays the contents of `one.txt` followed immediately by the contents of `two.txt` in the terminal. It does not modify or create any files; it simply outputs the combined contents to the screen. This command is useful for viewing the contents of multiple files in sequence.
 
 ---
     echo "Hello, world!"
