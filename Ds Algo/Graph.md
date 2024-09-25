@@ -20,6 +20,7 @@
 - [Disjoint Set Union (DSU)](#disjoint-set-union-dsu)
 - [Normal (DSU)](#normal-dsu)
 - [Rank and Path Compression (DSU)](#rank-and-path-compression-dsu)
+- [Size and path Compression (DSU)](#size-and-path-compression-dsu)
 - [Dijkstra Algorithm](#dijkstra-algorithm)
 - [Dijkstra Algorithm Using Priority Queue (Min Heap)](#using-priority-queue-min-heap)
 - [Dijkstra Algorithm Using Set](#using-set)
@@ -28,6 +29,8 @@
 - [Minimum Spanning Tree](#minimum-spannig-tree-mst--minimum-weight-spanning-tree)
 - [Minimum Spanning Tree Using Prim's Algorithm](#prims-algorithm)
 - [Minimum Spanning Tree Using Kruskal's Algorithm](#kruskal-algorithm)
+- [KosaRaju's Algorithm](#kosarajus-algorithm)
+- [Euler Path and Circuit](#euler-path-and-circuit)
 
 
 
@@ -598,6 +601,58 @@ void unionSets(int setA, int setB) {
 - [Table of Contents](#table-of-contents)
 
 
+### Size and path Compression (DSU)
+
+<a href = "DSU By Size.pdf">Pdf Notes</a>
+
+**Intution:-**
+
+The Disjoint Set Union (DSU) data structure efficiently manages a collection of non-overlapping sets. It employs **path compression** during the `find` operation to flatten the structure, reducing the time complexity for future queries. This ensures that each element points directly to the root, leading to nearly constant-time performance. Additionally, **union by size** merges smaller sets into larger ones, optimizing the overall tree height and maintaining efficiency. Together, these techniques make DSU highly effective for dynamic connectivity problems.
+
+```cpp
+class DSU {
+public:
+    DSU(int size) {
+        parent.resize(size);
+        setSize.resize(size, 1); // Initialize size of each set to 1
+        for (int i = 0; i < size; ++i) {
+            parent[i] = i; // Each element is its own parent initially
+        }
+    }
+
+    // Find with path compression
+    int find(int x) {
+        if (parent[x] != x) {
+            parent[x] = find(parent[x]); // Path compression
+        }
+        return parent[x];
+    }
+
+    // Union by size
+    void unionBySize(int x, int y) {
+        int rootX = find(x);
+        int rootY = find(y);
+
+        if (rootX != rootY) {
+            // Union by size: attach the smaller tree under the larger tree
+            if (setSize[rootX] < setSize[rootY]) {
+                parent[rootX] = rootY;
+                setSize[rootY] += setSize[rootX]; // Update size
+            } else {
+                parent[rootY] = rootX;
+                setSize[rootX] += setSize[rootY]; // Update size
+            }
+        }
+    }
+
+private:
+    std::vector<int> parent;
+    std::vector<int> setSize; // To keep track of the size of each set
+};
+```
+
+- [Table of Contents](#table-of-contents)
+
 ## Dijkstra Algorithm
 
 Dijkstra's algorithm is used to find the shortest path from a single source vertex to all other vertices in a graph with non-negative edge weights. It's commonly applied in network routing protocols to determine the most efficient path for data packets. The algorithm is ideal for applications such as GPS navigation systems to calculate the shortest route, as well as in various optimization problems like project scheduling and resource allocation. It efficiently handles sparse graphs and is well-suited for scenarios where real-time pathfinding is required.
@@ -957,6 +1012,167 @@ public:
         // Apply Kruskal's algorithm
         return kruskalMST(edges);
     }
+};
+
+```
+- [Table of Contents](#table-of-contents)
+
+
+### KosaRaju's Algorithm
+
+**Intution:-**
+
+Kosaraju's algorithm identifies strongly connected components in a directed graph by leveraging depth-first search (DFS) in two main passes. The first pass involves performing DFS on the original graph to determine the finishing order of nodes, which are then pushed onto a stack. In the second pass, the graph is transposed, reversing all edges, and DFS is performed again, but this time in the order defined by the stack. Each time a new DFS is initiated from a node, it marks all reachable nodes as part of the same strongly connected component. The algorithm's efficiency stems from its systematic exploration of nodes and their relationships, ensuring that all nodes in a strongly connected component are identified together. This two-phase approach efficiently captures the interconnected nature of nodes within the graph.
+
+```cpp
+class Solution
+{
+public:
+    void fillOrder(int node, vector<vector<int>>& adjacencyList, vector<bool>& visited, stack<int>& nodeStack) {
+        visited[node] = true;
+
+        for (int& neighbor : adjacencyList[node]) {
+            if (!visited[neighbor]) {
+                fillOrder(neighbor, adjacencyList, visited, nodeStack);
+            }
+        }
+
+        nodeStack.push(node);
+    }
+
+    void dfsOnReversedGraph(int node, vector<vector<int>>& reversedAdjacencyList, vector<bool>& visited) {
+        visited[node] = true;
+
+        for (int& neighbor : reversedAdjacencyList[node]) {
+            if (!visited[neighbor]) {
+                dfsOnReversedGraph(neighbor, reversedAdjacencyList, visited);
+            }
+        }
+    }
+
+    // Function to find number of strongly connected components in the graph.
+    int kosaraju(int vertexCount, vector<vector<int>>& adjacencyList) {
+        stack<int> nodeStack;
+        vector<bool> visited(vertexCount, false);
+
+        // Step 1: Fill nodes in stack according to their finishing times
+        for (int i = 0; i < vertexCount; i++) {
+            if (!visited[i]) {
+                fillOrder(i, adjacencyList, visited, nodeStack);
+            }
+        }
+
+        // Step 2: Create the reversed graph
+        vector<vector<int>> reversedAdjacencyList(vertexCount);
+        for (int u = 0; u < vertexCount; u++) {
+            for (int& v : adjacencyList[u]) {
+                reversedAdjacencyList[v].push_back(u);
+            }
+        }
+
+        int stronglyConnectedComponentsCount = 0;
+
+        // Step 3: Process all vertices in order defined by stack
+        visited = vector<bool>(vertexCount, false);
+        while (!nodeStack.empty()) {
+            int node = nodeStack.top();
+            nodeStack.pop();
+            if (!visited[node]) {
+                dfsOnReversedGraph(node, reversedAdjacencyList, visited);
+                stronglyConnectedComponentsCount++;
+            }
+        }
+
+        return stronglyConnectedComponentsCount;
+    }
+};
+
+```
+
+- [Table of Contents](#table-of-contents)
+
+## Euler Path and Circuit
+
+Euler paths and Euler circuits have distinct properties that define their existence within a graph:
+
+**Euler Path Properties:**
+1. An Euler path traverses every edge of a graph exactly once but does not necessarily return to the starting vertex.
+2. It exists if and only if exactly zero or two vertices have an odd degree. If there are zero odd-degree vertices, the path can start and end at the same vertex; if there are two, it will start at one and end at the other.
+
+**Euler Circuit Properties:**
+1. An Euler circuit is a specific type of Euler path that starts and ends at the same vertex, covering every edge exactly once.
+2. It exists if and only if all vertices in the graph have an even degree, ensuring that every time a vertex is entered, it can also be exited.
+
+These properties help in determining the feasibility of traversing the graph in an Eulerian manner.
+
+<a href = "EulerianGraphs-Part-1.pdf">Pdf Notes</a>
+
+**Intution:-**
+
+The approach in the code involves determining the Eulerian properties of a graph. First, it checks if all vertices with non-zero degrees are connected using a depth-first search (DFS) starting from a vertex with a non-zero degree. If not all such vertices are connected, the graph is classified as non-Eulerian. Next, it counts the number of vertices with odd degrees. If more than two vertices have odd degrees, the graph is again deemed non-Eulerian. If exactly two vertices have odd degrees, the graph is classified as semi-Eulerian, indicating it has an Euler path. Finally, if all vertices have even degrees, the graph is identified as having an Euler circuit.
+
+```cpp
+class Solution {
+public:
+
+    void depthFirstSearch(vector<int> adjacencyList[], int vertex, vector<bool>& visited) {
+        visited[vertex] = true;
+        
+        for(auto neighbor = adjacencyList[vertex].begin(); neighbor != adjacencyList[vertex].end(); neighbor++) {
+            if(!visited[*neighbor]) {
+                depthFirstSearch(adjacencyList, *neighbor, visited);
+            }
+        }
+    }
+
+    bool areAllNonZeroDegreeVerticesConnected(int totalVertices, vector<int> adjacencyList[]) {
+        vector<bool> visited(totalVertices, false);
+        
+        // Find a vertex with a non-zero degree
+        int startingVertex = -1;
+        for(int i = 0; i < totalVertices; i++) {
+            if(adjacencyList[i].size() != 0) {
+                startingVertex = i;
+                break;
+            }
+        }
+        
+        // Start DFS traversal from a vertex with a non-zero degree
+        depthFirstSearch(adjacencyList, startingVertex, visited);
+        
+        // Check if all non-zero degree vertices were visited
+        for(int i = 0; i < totalVertices; i++) {
+            if(!visited[i] && adjacencyList[i].size() > 0)
+                return false;
+        }
+        return true;
+    }
+
+	int checkEulerianProperties(int totalVertices, vector<int> adjacencyList[]) {
+	    
+	    // Check if all non-zero degree vertices are connected
+	    if(!areAllNonZeroDegreeVerticesConnected(totalVertices, adjacencyList)) {
+	        return 0; // Non-Eulerian
+	    }
+	    
+	    // Count vertices with odd degrees
+	    int oddDegreeCount = 0;
+	    for(int i = 0; i < totalVertices; i++) {
+	        if(adjacencyList[i].size() % 2 != 0) {
+	            oddDegreeCount++;
+	        }
+	    }
+	    
+	    // If the count of odd degree vertices is more than 2, then the graph is not Eulerian
+        if (oddDegreeCount > 2)
+            return 0; // Non-Eulerian
+        
+        if(oddDegreeCount == 2) {
+            return 1; // Semi-Eulerian (It has only an Euler Path)
+        }
+        
+        return 2; // (Euler Circuit)
+	}
 };
 
 ```
