@@ -1,8 +1,8 @@
 
-<a href = "./SegmentTree-Video-1.pdf">pdf Notes 1</a>
-<a href = "./Segment Tree-Video-2.pdf">pdf Notes 2</a>
-<a href = "./Segment Tree - Video - 3.pdf">pdf Notes 3</a>
-<a href = "./Segment Tree - Video - 4.pdf">pdf Notes 4</a>
+- <a href = "./SegmentTree-Video-1.pdf">pdf Notes 1</a>
+- <a href = "./Segment Tree-Video-2.pdf">pdf Notes 2</a>
+- <a href = "./Segment Tree - Video - 3.pdf">pdf Notes 3</a>
+- <a href = "./Segment Tree - Video - 4.pdf">pdf Notes 4</a>
 
 **Intution:-**
 
